@@ -44,7 +44,6 @@ class OpenAI {
             console.log("Error: while transcription ", e.message)
         }
     }
-
 }
 
 export const openai = new OpenAI(config.get('OPENAI_KEY'))
