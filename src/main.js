@@ -48,7 +48,11 @@ bot.command('start', async (ctx) => {
 bot.on(message('voice'), async (ctx) => {
     ctx.session ??= INITIAL_SESSION
     try {
-
+        if (Date.now() - ctx.session.createdAt > SESSION_TIMEOUT) {
+          // Если время истекло, сбрасываем сессию
+          ctx.session = INITIAL_SESSION;
+          await ctx.reply('Session expired. Starting a new session.');
+        }      
         await ctx.reply(code('Transcription in progress...'))
         const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id)
         const userId = String(ctx.message.from.id)
